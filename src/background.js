@@ -1,12 +1,12 @@
 'use strict'
 
-import { app, protocol, BrowserWindow } from 'electron'
+import { app, protocol, BrowserWindow,session } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 const {contextBridge,ipcMain,ipcRenderer} = require('electron')
 const isDevelopment = process.env.NODE_ENV !== 'production'
 // Scheme must be registered before the app is ready
-
+let win
 const path = require('path')
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
@@ -18,9 +18,9 @@ protocol.registerSchemesAsPrivileged([
 // })
 async function createWindow() {
   // Create the browser window.
-  const win = new BrowserWindow({
-    width: 1008,
-    height: 648,
+      win = new BrowserWindow({
+    width: 1050,
+    height: 650,
     minWidth: 987,
     minHeight: 648,
     frame: false,
@@ -77,9 +77,23 @@ app.on('ready', async () => {
   //   }
   // }
   createWindow()
+  
 })
 ipcMain.on('window-close', function () {
   win.close();
+}),
+// ipcMain.on('window-max', function () {
+//   win.maximize();
+// }),
+ipcMain.on('window-min', function () {
+  win.minimize();
+}),
+ipcMain.on('window-change', function () {
+  if(win.isMaximized()){
+    win.restore()
+  }else{
+    win.maximize()
+  }
 })
 
 // Exit cleanly on request from parent process in development mode.

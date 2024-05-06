@@ -1,6 +1,6 @@
 <template>
-    <div class="mesList">
-        <div :style="getSry(item)" class="listBlock" @click="choiceMes(item,index)" v-for="(item,index) in mesList" :key="index">
+    <div class="mesList" :style="getMesListBlock()">
+        <div :style="getSry(item,index)" class="listBlock" @click="choiceMes(item,index)" v-for="(item,index) in mesList" :key="index">
             <img class="listImg" :src="require('../../.././public/img/' + item.src)  " alt="">
             <div v-show="item.newMesNum>0" class="isNew"></div>
             <div class="title">
@@ -16,7 +16,12 @@
                     <div class="timeText">{{item.time}}</div>
                 </div>
             </div>
+            <!-- <div v-show="index==$store.state.showVideoIndex" >
+              <iframe :src="$store.state.url" class="video" ></iframe>
+            </div> -->
         </div>
+        
+        
     </div>
 </template>
 <script>
@@ -25,7 +30,16 @@ export default {
         mesList:{
             type:Array,
             default:[]
+        },
+        height:{
+          default:470,
+          type:Number,
         }
+    },
+    watch:{
+      height(newVal,oldVal){
+
+      },
     },
     data(){
         return{
@@ -33,17 +47,24 @@ export default {
         }
     },
     methods:{
+        init(){
+          
+        },
         choiceMes(item,index){
             console.log(index)
             this.choice = item.title
             this.$emit('changeMesList',index)
         },
-        getSry(item){
+        getSry(item,index){
+            let res = ''
             if(item.title==this.choice){
-                return "background:#D1DEF0;"
-            }else{
-                return ""
+              res +="background:#D1DEF0;"
             }
+            // if(index==this.$store.state.showVideoIndex){
+            //   res+= "height:220px;"
+            // }
+            return res
+            
         },
         getTagType(item){
             if(item.tagType=='info'){
@@ -65,16 +86,44 @@ export default {
                 text = '[' + item.newMesNum+ '条]' + text
             }
             return text
+        },
+        getMesListBlock(){
+          const sty = "height:" + (this.height-120) +"px;"
+          return sty
         }
     },
+    mounted(){
+      this.init()
+    }
 
 }
 </script>
 <style scoped>
   .mesList{
-    height: 100vh;
     width: 100%;
     margin-top: 9px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+  }
+  .mesList:hover{
+    overflow-y: scroll;
+  }
+  .mesList::-webkit-scrollbar {
+    width: 17px;
+  }
+  .mesList::-webkit-scrollbar-corner {
+      background: rgba(0,0,0,0);
+  }
+  .mesList::-webkit-scrollbar-thumb {
+      background-color: #ccc;
+      border-radius: 6px;
+      border: 4px solid rgba(0,0,0,0);
+      background-clip: content-box;
+      min-width: 32px;
+      min-height: 32px;
+  }
+  .mesList::-webkit-scrollbar-track {
+      background-color: rgba(0,0,0,0);
   }
   .listBlock{
     width: 252px;
@@ -101,6 +150,14 @@ export default {
     height: 40px;
     margin: 10px;
     border-radius: 5px;
+  }
+  .video{
+    width: 240px;
+    /* margin: 0px 3px; */
+    height: 150px;
+    border-radius: 5px;
+    position: relative;
+    border: none;
   }
   .title{
     float: left;

@@ -1,5 +1,5 @@
 <template>
-    <div style="width:100%;height:100%;">
+    <div class="ListBolck">
         <div v-for="(item,index) in functions" :style="funGetSty(item)" :key="index" class="functionBlock" @click="clickChoice(item)" @mouseover="hasChoiceFuction(item)" @mouseout="isntChoice()">
             <img class="functionImg" :src="require('../../.././public/img/'+item.src)" alt="" :style="getOpacity(item)">
             <div class="functionText" :style="getOpacity(item)">{{item.name}}</div>
@@ -90,6 +90,11 @@ export default {
 }
 </script>
 <style scoped>
+  .ListBolck{
+    width:100%;
+    height:100%;
+    /* overflow: scroll; */
+  }
   .functionBlock{
     width: 47.5px;
     height: 47.5px;

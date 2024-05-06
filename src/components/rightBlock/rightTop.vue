@@ -1,14 +1,18 @@
 <template>
     <div class="titleBlock">
-        <div class="titleText">
-            {{item.title}}
+        <div class="leftBlock">
+            <div class="titleText">
+                {{item.title}}
+            </div>
         </div>
-        <!-- 虽然这几个按钮写在这里，但是实际上定位和这里无关 -->
-        <img class="littleButton" src="../../.././public/img/little.png" alt="">
-        <img class="changeSizeButton" src="../../.././public/img/square.png" alt="">
-        <img @click="closeAll" class="closeButton" src="../../.././public/img/close.png" alt="">
-        <img class="moreButton" src="../../.././public/img/moreBlack.png" alt="">
-        <img class="addButton" src="../../.././public/img/addFriend.png" alt="">
+        <div class="moreButton">
+            <img class="moreButtonImg" src="../../.././public/img/moreBlack.png" alt="">
+        </div>
+        <div class="addButton">
+            <img  class="addButtonImg" src="../../.././public/img/addFriend.png" alt="">
+        </div>
+        <div :style="getMoveBlock()"></div>
+        <div :style="getMoveBlock2()"></div>
     </div>
     
 </template>
@@ -18,6 +22,10 @@ export default {
     item:{
         default:()=>({}),
         type:Object,
+    },
+    long:{
+        default: 470,
+        type:Number,
     }
   },
   components:{
@@ -25,14 +33,25 @@ export default {
   },
   data() {
     return {
-        // title: '',
+        isBig : false
+        //electron自带的窗口方法比较只能，不需要手动检测是否返回的状态是否正常
+    }
+  },
+  watch:{
+    long(newVal,oldVal){
+
     }
   },
   methods:{
-    closeAll(){
-        // window.electron.ipcRenderer.send('window-close')
-        console.log(window.electron)
-        //往main传送参数，操作窗体
+    getMoveBlock(){
+        const sty ="position:absolute;top:0;left:320px;height:28px;width:"+
+        (this.long-430) + 'px;'+"-webkit-app-region: drag;"
+        return sty
+    },
+    getMoveBlock2(){
+        const sty ="position:absolute;top:28px;left:320px;height:36px;width:"+
+        (this.long-410) + 'px;'+"-webkit-app-region: drag;"
+        return sty
     },
   }
 }
@@ -44,6 +63,10 @@ export default {
         background: #F6F6F7;
         /* margin-top: 30px; */
         border-bottom: 1px solid #DEE0E2;
+    }
+    .leftBlock{
+        width: 100%;
+        height: 100%;
     }
     .topButton{
         width: 100%;
@@ -63,43 +86,34 @@ export default {
     }
     .moreButton{
         width: 28px;
-        height: 26px;
+        height: 28px;
         position: absolute;
         top: 24px;
         right: 57px;
         display: block;
+        border-radius: 5px;
+    }
+    .moreButtonImg{
+        width: 28px;
+        height: 26px;
+    }
+    .moreButton:hover{
+        background:#EAEAEC;
     }
     .addButton{
-        width: 32px;
+        width: 28px;
         height: 28px;
         position: absolute;
-        top: 22px;
+        top: 24px;
         right: 13px;
         display: block;
     }
-    .littleButton{
-        width: 17px;
-        height: 12px;
-        position: absolute;
-        top: 3px;
-        right: 80px;
-        display: block;
+    .addButtonImg{
+        margin-top: -2px;
+        width: 32px;
+        height: 28px;
     }
-    .changeSizeButton{
-        width: 12px;
-        height: 12px;
-        position: absolute;
-        top: 4px;
-        right: 47px;
-        display: block;
+    .addButton:hover{
+        background:#EAEAEC;
     }
-    .closeButton{
-        width: 10px;
-        height: 10px;
-        position: absolute;
-        top: 5px;
-        right: 13px;
-        display: block;
-    }
-
 </style>

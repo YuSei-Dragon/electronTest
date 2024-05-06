@@ -1,7 +1,7 @@
 <template>
-    <div class="middleBlock">
+    <div ref="middleBlock" class="middleBlock">
         <searchBlock/>
-        <mesList @changeMesList="changeByIndex" :mesList="mesList"/>
+        <mesList @changeMesList="changeByIndex" :mesList="mesList" :height="mesListHeight"/>
     </div>
 </template>
 <script>
@@ -16,13 +16,24 @@ export default {
     },
     data(){
         return{
-
+            mesListHeight : 0,
         }
+    },
+    mounted(){
+    window.addEventListener('resize',this.change)
+    },
+    beforeDestroy(){
+        window.removeEventListener('resize',this.change)
     },
     methods:{
         changeByIndex(index){
             console.log("change List index:",index)
             this.$emit('changeList',index)
+        },
+        change(){
+            const height = this.$refs.middleBlock.offsetHeight
+            this.mesListHeight = height
+            // console.log("change")
         }
     },
     components:{
