@@ -12,7 +12,7 @@
             <img src="../../.././public/img/lighting.png" alt="">
             <div class="rightButtonText">快速会议</div>
         </div>
-        <textarea ref="textarea"  v-model="inputMes" autocomplete="false" class="input" type="text"></textarea>
+        <textarea ref="textarea" id="myTextarea"  v-model="inputMes" autocomplete="false" class="input" type="text"></textarea>
         <div class="submitButton">发送(S)</div>
         <div class="log">{{$store.state.log}}</div>
         
@@ -121,6 +121,7 @@ export default {
     const that = this
     this.$refs.textarea.addEventListener('keydown',function(e){
         // console.log(e.keyCode)
+        const textarea = document.getElementById("myTextarea")
         if(e.keyCode===13){
             that.submit(that.inputMes)
             e.preventDefault()
@@ -146,14 +147,17 @@ export default {
                     that.inputMes = that.submitList[that.ListKey]
                 }
             }
+            console.log(that.inputMes?.length)
         }else if(e.keyCode === 40){
             //如果检测到按下了 👇按钮
             if(that.ListKey<that.submitList.length&&that.submitList.length>0){
                 //如果已经向上找过一次记录
                 that.inputMes = that.submitList[that.ListKey+1]
                 that.ListKey++
+                console.log(that.inputMes?.length)
             }
         }
+        
     })
   },
   watch:{

@@ -75,9 +75,9 @@ export default {
     },
     getiframeBlock(){
       if(!this.$store.state.biggerIframe)
-        return "position: relative;overflow: hidden;width: 525px;height: 400px;border: none;"
+        return "position: relative;overflow: scroll;width: 525px;height: 400px;border: none;"
         else{
-          return ""
+          return "overflow: scroll;"
         }
     },
     getVideo(){
@@ -85,7 +85,7 @@ export default {
         if(!this.$store.state.biggerIframe){
         return "position: absolute;width: 250%;height: 200%;left: -385px;top: -160px;transform: scale(0.4);border: none;opacity: 0.02;"
       }else{
-        return "width: 525px;margin: 0px 3px; height: 400px;border-radius: 5px;position: relative;border: none;opacity: 0.02;"
+        return "width: 1000px;margin: 0px 3px; height: 600px;border-radius: 5px;position: relative;border: none;opacity: 0.02;"
       }
       },
     clickIframeBlock(){

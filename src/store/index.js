@@ -12,6 +12,19 @@ const state = {
     showVideoIndex: -1,
     // url:'https://www.bilibili.com/',
     url:"https://neos.moecube.com/",
+    urlList:[{
+        name:'bilibili',
+        url:"https://www.bilibili.com/",
+        mark:'b站',
+    },{
+        name:'ygo',
+        url: "https://neos.moecube.com/",
+        mark:'游戏王',
+    },{
+        name:'saolei',
+        url:'https://www.minesweeper.cn/',
+        mark:'扫雷',
+    }],
     videoOpacity:0.2,
     log: ' ',
     biggerIframe:false,
@@ -39,6 +52,20 @@ const mutations = {
     },
     changeBiggerIframe(state,res){
         state.biggerIframe = res
+    },
+    changeUrlByList(state,name){
+        state.urlList.map((item)=>{
+            if(item.name == name){
+              state.url = item.url  
+            }
+        })
+    },
+    getUrlList(state){
+        let res = ''
+        state.urlList.map((item)=>{
+            res += item.name + '('+ item.mark +')' + " _ "
+        })
+        state.log = res.slice(0,res.length-3)
     }
 
 }//操作数据
