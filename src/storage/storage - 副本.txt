@@ -1,0 +1,26 @@
+
+{
+    #这是左边会话列表的数据,如果不足12条会自动补齐到12条,系统自带默认数据，选取此数据将会覆盖
+    conversationList:[
+        {
+            title:'梁非凡',
+            src: 'head1.jpg',
+            isIgnore: true,
+            time: "昨天",
+            detail: "梁非凡：警署都有规定，下属唔可以同上司啵嘴！",
+            tag:'老板',
+            tagType: 'info',
+            newMesNum:3,
+        },
+        {
+            title:'刘醒',
+            src: 'head2.jpg',
+            isIgnore: true,
+            time: "5分钟前",
+            detail: "刘醒：对唔住非凡哥，但系警署有规定。",
+            tag:'啊sir',
+            tagType: 'success',
+            newMesNum:0,
+        } 
+    ],
+}

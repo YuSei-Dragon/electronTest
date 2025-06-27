@@ -1,9 +1,9 @@
 <template>
-    <div class="leftBlock">
+    <div class="leftBlock" :style="$store.state.isNewStyle?'background:#c8e1f3;':''">
       <img class="userHead" src="../../.././public/img/test.jpg" alt="">
       <functionList/>
       <div @mouseover="mouseOver()" @click="clicked()" @mouseout="mouseOut()" @blur="clickBlur()" class="changeEnterprise" :style="getStr()">
-        <img class="enterpriseImg" src="../../.././public/img/enterprise.png" alt="">
+        <img class="enterpriseImg" :src="require('../../.././public/img/'+($store.state.isNewStyle?'new/':'') +'enterprise.png')" alt="">
       </div>
     </div>
 </template>
@@ -22,13 +22,13 @@ export default {
     methods:{
         getStr(){
             if(this.isChoice == true&&this.isFlow == true){
-                return 'background:#578ACF'
-            }
-            else if(this.isChoice == true){
-                return 'background:#4C83CC'
-            }
-            else if(this.isFlow == true){
-                return 'background:#427CC9'
+                return this.$store.state.isNewStyle?'background:#aad3f1;':'background:#578ACF'
+            }else if(this.isChoice){
+                return  this.$store.state.isNewStyle?'background:#b4d7f0;':'background:#4C83CC;'
+            }else if(this.isFlow){
+                return this.$store.state.isNewStyle?'background:#c4d6e6;':'background:#427CC9'
+            }else{
+                return ''
             }
         },
         mouseOver(){
@@ -66,19 +66,22 @@ export default {
     width: 36px;
     height: 36px;
     border-radius: 5px;
-    margin-bottom: 5px;
+    /* margin-bottom: 5px; */
   }
   .changeEnterprise{
     position: absolute;
     left: 6.25px;
-    bottom: 0;
+    /* bottom: 0; */
+    bottom: 5px;
     width: 47.5px;
     height: 47.5px;
     text-align: center;
   }
   .enterpriseImg{
-    width: 30px;
-    height: 26px;
+    /* width: 30px; */
+    width:24px;
+    /* height: 26px; */
+    height: 24px;
     margin-top: 10px;
   }
 </style>

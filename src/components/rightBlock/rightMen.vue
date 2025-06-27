@@ -31,6 +31,15 @@ export default {
     height:{
       default:648,
       type:Number,
+    },
+    memberList:{
+      default:[],
+      type:Array,
+    }
+  },
+  watch:{
+    "memberList":function(newV){
+      this.init()
     }
   },
   components:{
@@ -47,6 +56,20 @@ export default {
     getPersonBlockHeight(){
       let sty = 'width: 100%;overflow-x:hidden;height:'+ (this.height-32) + 'px'
       return sty
+    },
+    init(){
+      this.menList = []
+      this.memberList.forEach(item=>{
+        this.menList.push(item)
+      })
+      if(this.menList.length<26){
+        for(let i = this.menList.length;i<=26;i++){
+          this.menList.push({
+            name:Random.cname(),
+            sex: Mock.mock('@integer(0,1)')
+          })
+        }
+      }
     }
   },
   mounted(){
@@ -64,7 +87,7 @@ export default {
 <style scoped >
 .MenBlock{
     width: 160px;
-    height: 100%;
+    height: 406px;
     /* background: rgb(254, 132, 132); */
     position: absolute;
     top: 66px;

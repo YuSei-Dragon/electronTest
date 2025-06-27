@@ -5,26 +5,27 @@
             <div v-show="item.newMesNum>0" class="isNew"></div>
             <div class="title">
                 <div class="top">
-                    <div class="titleText">{{item.title}}</div>
+                    <div class="titleText" :style="getTitleTextStyle(item)">{{item.title}}</div>
                     <div :class="getTagType(item)" v-if="item.tag&&item.tag!=''">
                         {{item.tag}}
                     </div>
                 </div>
                 <img v-if="item.isIgnore" class="ignore" :src="getIgnore(item)" alt="">
                 <div class="bottom">
-                    <div class="mesText">{{getmesText(item)}}</div>
-                    <div class="timeText">{{item.time}}</div>
+                    <div class="mesText" :style="getMesTextStyle(item)">{{getmesText(item)}}</div>
+                    <div class="timeText" :style="getMesTextStyle(item)">{{item.time}}</div>
                 </div>
             </div>
             <!-- <div v-show="index==$store.state.showVideoIndex" >
               <iframe :src="$store.state.url" class="video" ></iframe>
             </div> -->
         </div>
-        
+        <helpBlock></helpBlock>
         
     </div>
 </template>
 <script>
+import helpBlock from "./helpBlock"
 export default {
     props:{
         mesList:{
@@ -40,6 +41,9 @@ export default {
       height(newVal,oldVal){
 
       },
+    },
+    components:{
+      helpBlock
     },
     data(){
         return{
@@ -58,7 +62,11 @@ export default {
         getSry(item,index){
             let res = ''
             if(item.title==this.choice){
-              res +="background:#D1DEF0;"
+              if(this.$store.state.isNewStyle){
+                res +="background:#208eff;"
+              }else{
+                res +="background:#D1DEF0;"
+              }
             }
             // if(index==this.$store.state.showVideoIndex){
             //   res+= "height:220px;"
@@ -75,9 +83,9 @@ export default {
         },
         getIgnore(item){
             if(item.title!=this.choice){
-                return require('../../.././public/img/ignore1.png')
+                return require('../../.././public/img/'+ (this.$store.state.isNewStyle?'new/':'')+'ignore1.png')
             }else{
-                return require('../../.././public/img/ignore2.png') 
+                return require('../../.././public/img/'+(this.$store.state.isNewStyle?'new/':'')+'ignore2.png') 
             }
         },
         getmesText(item){
@@ -90,7 +98,21 @@ export default {
         getMesListBlock(){
           const sty = "height:" + (this.height-120) +"px;"
           return sty
-        }
+        },
+        getMesTextStyle(item){
+          let res = ""
+          if(item.title==this.choice&&this.$store.state.isNewStyle){
+            res +="color:#b4d4fa;"
+          }
+          return res
+        },
+        getTitleTextStyle(item){
+          let res = ""
+          if(item.title==this.choice&&this.$store.state.isNewStyle){
+            res +="color:#fff;"
+          }
+          return res
+        },
     },
     mounted(){
       this.init()
@@ -197,7 +219,7 @@ export default {
   }
   .ignore{
     position: absolute;
-    top: 9px;
+    top: 13px;
     right: 16px;
     width: 12px;
     height: 13px;

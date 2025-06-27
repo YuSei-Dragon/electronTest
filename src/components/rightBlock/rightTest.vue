@@ -9,7 +9,7 @@
         <iframe  ref="iframe" :src="$store.state.url" :style="getVideo()" name="iframe" ></iframe>
         <!-- security="restricted" sandbox="allow_forms allow-modals allow-popups allow-scripts allow-same-origin"
         处理自动跳转到顶层和屏蔽页面脚本活动 -->
-        <div class="bigBlock"  ref="bigBlock">
+        <!-- <div class="bigBlock"  ref="bigBlock"> -->
           <!-- <img :src="bigSrc" alt=""> -->
         </div>
       </div>
@@ -34,13 +34,20 @@ export default {
     height:{
       default:0,
       type:Number,
-    }
+    },
+    RandomMesList:{
+      default:[],
+      type:Array,
+    },
   },
   watch:{
     long(newVal,oldVal){
         // console.log(newVal)
         //监听数据变化
     },
+    RandomMesList:function(newV){
+      this.reset()
+    }
   },
   data() {
     return {
@@ -50,6 +57,17 @@ export default {
     }
   },
   methods:{
+    reset(){
+      this.mesList = []
+      for(let i = 0;i<20;i++){
+        this.mesList.push({
+          name:Random.cname(),
+          mes:this.RandomMesList[i]
+          // Random.csentence()
+        })
+      }
+      this.iframeSetOpacity()
+    },
     getTextBlock(){
       const sty = "height:"+(this.height-180)+"px;width:" + (this.long-480) + 'px;'
       // console.log(sty)
@@ -61,74 +79,80 @@ export default {
       this.$nextTick(()=>{
         // console.log(that.$store.state.videoOpacity)
         const iframe = this.$refs.iframe
-        const bigBlock = this.$refs.bigBlock
+        // const bigBlock = this.$refs.bigBlock
         iframe.onmouseover = function(){
           iframe.style.opacity = that.$store.state.videoOpacity
-          bigBlock.style.opacity = that.$store.state.videoOpacity
+          // bigBlock.style.opacity = that.$store.state.videoOpacity
         }
         iframe.onmouseout = function(){
           iframe.style.opacity = "0.02"
-          bigBlock.style.opacity = "0.02"
+          // bigBlock.style.opacity = "0.02"
         }
       })
       
     },
     getiframeBlock(){
-      if(!this.$store.state.biggerIframe)
+      if(!this.$store.state.biggerIframe||this.$store.state.biggerIframe == 1.5)
         return "position: relative;overflow: scroll;width: 525px;height: 400px;border: none;"
         else{
           return "overflow: scroll;"
         }
     },
     getVideo(){
+        if(this.$store.state.biggerIframe == 1.5){
+          return "position: absolute;width: 250%;height: 200%;left: -385px;top: -160px;transform: scale(0.58);border: none;opacity: 0.02;"
+        }else if(!this.$store.state.biggerIframe){
 
-        if(!this.$store.state.biggerIframe){
         return "position: absolute;width: 250%;height: 200%;left: -385px;top: -160px;transform: scale(0.4);border: none;opacity: 0.02;"
-      }else{
-        return "width: 1000px;margin: 0px 3px; height: 600px;border-radius: 5px;position: relative;border: none;opacity: 0.02;"
-      }
+        }else{
+
+          return "width: 1000px;margin: 0px 3px; height: 600px;border-radius: 5px;position: relative;border: none;opacity: 0.02;"
+        }
+        
       },
-    clickIframeBlock(){
-      console.log("触发了放大更新")
-      const iframeHtml = this.$refs.iframe.contentWindow//获取iframe内容
-      console.log(iframeHtml)
-      const iframeBody = iframeHtml.document.getElementsByTagName('body')[0]
-      console.log(iframeBody)
-      //获取iframe 的body
-      this.$nextTick(()=>{
-         html2canvas(iframeBody,{
-        backgroundColor: "transparent",
-        allowTaint: true,
-        // useCORS :true,
-        // width:this.$refs.iframe
-        x:0,
-        y:0,
-        scrollX: 0,
-        scrollY: 0,
-      }).then((canvas)=>{
-        console.log(canvas)
-        document.querySelector('.bigBlock').appendChild(canvas)
-        // canvas.id = 'canvas',
-        // this.$refs.bigBlock.appendChild(canvas)
-        // document.getElementById('canvas').style.position = 'fixed'
-        // document.getElementById('canvas').style.top = '0'
-        // document.getElementById('canvas').style.left = '0'
-        // document.getElementById('canvas').style.zIndex = '999'
-        this.bigSrc = canvas.toDataURL()
-      })
-      })
+    // clickIframeBlock(){
+    //   console.log("触发了放大更新")
+    //   const iframeHtml = this.$refs.iframe.contentWindow//获取iframe内容
+    //   console.log(iframeHtml)
+    //   const iframeBody = iframeHtml.document.getElementsByTagName('body')[0]
+    //   console.log(iframeBody)
+    //   //获取iframe 的body
+    //   this.$nextTick(()=>{
+    //      html2canvas(iframeBody,{
+    //     backgroundColor: "transparent",
+    //     allowTaint: true,
+    //     // useCORS :true,
+    //     // width:this.$refs.iframe
+    //     x:0,
+    //     y:0,
+    //     scrollX: 0,
+    //     scrollY: 0,
+    //   }).then((canvas)=>{
+    //     console.log(canvas)
+    //     document.querySelector('.bigBlock').appendChild(canvas)
+    //     // canvas.id = 'canvas',
+    //     // this.$refs.bigBlock.appendChild(canvas)
+    //     // document.getElementById('canvas').style.position = 'fixed'
+    //     // document.getElementById('canvas').style.top = '0'
+    //     // document.getElementById('canvas').style.left = '0'
+    //     // document.getElementById('canvas').style.zIndex = '999'
+    //     this.bigSrc = canvas.toDataURL()
+    //   })
+    //   })
      
-    }
+    // }
   },
   mounted(){
     // console.log(this.height)
-    for(let i = 0;i<20;i++){
-      this.mesList.push({
-        name:Random.cname(),
-        mes:Random.csentence()
-      })
-    }
-    this.iframeSetOpacity()
+    // for(let i = 0;i<20;i++){
+    //   this.mesList.push({
+    //     name:Random.cname(),
+    //     mes:this.RandomMesList[i]
+    //     // Random.csentence()
+    //   })
+    // }
+    // this.iframeSetOpacity()
+    this.reset()
   },
   updated(){
     this.$nextTick(()=>{

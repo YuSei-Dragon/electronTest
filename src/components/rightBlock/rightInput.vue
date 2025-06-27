@@ -2,7 +2,7 @@
     <div class="InputBlock" :style="getWidth" >
         <div v-for="(item,index) in buttonsList" :key="index">
             <div class="buttonsBlock">
-                <img :style="getSize(item)" class="buttonImg" :src="require('../../.././public/img/'+item.src)" alt="">
+                <img :style="getSize(item)" :src="require('../../.././public/img/'+item.src)" alt="">
             </div>
             <div v-if="item.isMore" class="buttonsMore">
                 <div class="moreText">▾</div>
@@ -10,10 +10,15 @@
         </div>
         <div class="rightButtons">
             <img src="../../.././public/img/lighting.png" alt="">
-            <div class="rightButtonText">快速会议</div>
+            <div @click="openTest" class="rightButtonText">快速会议
+                <div v-show="showTestBlock" class="TestBlock"> 
+                    <a target='blank' href="tencent://message/?uin=3446378115&Site=qq号码说明&Menu=yes">123</a>
+                </div>
+            </div>
         </div>
-        <textarea ref="textarea" id="myTextarea"  v-model="inputMes" autocomplete="false" class="input" type="text"></textarea>
+        <textarea :onfocus="focus()" ref="textarea" id="myTextarea"  v-model="inputMes" autocomplete="false" class="input" type="text"></textarea>
         <div class="submitButton">发送(S)</div>
+        <input class="setting-click" id="settingClick" type="file"/>
         <div class="log">{{$store.state.log}}</div>
         
     </div>
@@ -115,6 +120,7 @@ export default {
         submitList : [],
         ListKey : -1,
         logOpacity: 1,
+        showTestBlock: false,
     }
   },
   mounted(){
@@ -147,14 +153,28 @@ export default {
                     that.inputMes = that.submitList[that.ListKey]
                 }
             }
-            console.log(that.inputMes?.length)
+            // console.log(that.inputMes?.length)
+            // console.dir(textarea.setSelectionRange,textarea.createTextRange)
+            if(textarea.setSelectionRange){
+                textarea.focus()
+                setTimeout(()=>{
+                    textarea.setSelectionRange(-1,-1)
+                },10)
+            //focus需要一定时间，而这里并没有组件变化，所以nextTick无效，要设置延时
+            }else if(textarea.createTextRange){
+                let range = textarea.createTextRange
+                range.collapse(true)
+                range.moveEnd('character',that.inputMes?.length)
+                range.moveStart('character',that.inputMes?.length)
+                range.select()
+            }
         }else if(e.keyCode === 40){
             //如果检测到按下了 👇按钮
             if(that.ListKey<that.submitList.length&&that.submitList.length>0){
                 //如果已经向上找过一次记录
                 that.inputMes = that.submitList[that.ListKey+1]
                 that.ListKey++
-                console.log(that.inputMes?.length)
+                // console.log(that.inputMes?.length)
             }
         }
         
@@ -186,6 +206,13 @@ export default {
     // getLogSty(){
     //     return 'opacity:' + this.logOpacity + ';'
     // }
+    focus(){
+        // console.log("focus")
+    },
+    openTest(){
+        console.log("显示/隐藏testBlock")
+        this.showTestBlock = !this.showTestBlock
+    }
   }
 }
 </script>
@@ -228,10 +255,6 @@ export default {
     margin-top: 4px;
     margin-left: -2px;
 }
-.buttonImg{
-    /* width: 28px;
-    height: 28px; */
-}
 .rightButtons{
     float: right;
     padding: 3px;
@@ -247,9 +270,20 @@ export default {
     float: left;
 }
 .rightButtonText{
+    position: relative;
     float: left;
     font-size: 12.5px;
     padding-top: 2px;
+}
+.TestBlock{
+    position: absolute;
+    top: 0;
+    left: -100px;
+    width: 100px;
+    height: 60px;
+    background-color: #fff;
+    border-radius: 5px;
+    z-index: 99;
 }
 .input{
     padding: 10px;
@@ -297,10 +331,42 @@ export default {
     font-size: 13px;
     float: left;
     margin-left: 12px;
-    margin-top: 10px;
+    padding-top: 10px;
     opacity: 0.5;
+    width: 80%;
+    height: 28px;
+    overflow: hidden;
 }
 .log:hover{
     opacity: 1;
+    overflow: scroll;
+    padding: 0px;
+    height: 50px;
+}
+.log::-webkit-scrollbar {
+    width: 17px;
+}
+.log::-webkit-scrollbar-corner {
+    background: rgba(0,0,0,0);
+}
+.log::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 6px;
+    border: 4px solid rgba(0,0,0,0);
+    background-clip: content-box;
+    /* min-width: 32px;
+    min-height: 32px; */
+}
+.log::-webkit-scrollbar-track {
+    background-color: rgba(0,0,0,0);
+}
+.setting-click{
+    display: block;
+    opacity: 0;
+    height: 1px;
+    width: 1px;
+    padding: 0px;
+    margin: 0px;
+    border: none;
 }
 </style>

@@ -41,6 +41,13 @@ export default {
     middleBlock,
     rightBlock
   },
+  watch:{
+    "$store.state.initMes":function(newV){
+      console.log("检测到初始化数据conversationList变化")
+      this.mesList = newV.conversationList
+      this.fullMesList()
+    }
+  },
   data() {
     return {
       mesList:[
@@ -71,27 +78,37 @@ export default {
     }
   },
   mounted(){
-    let a = 0
-    for(let i=0;i<10;i++){
-      if(a>=5){
-        a = 0
-      }
-      a++
-      const name = Random.cname()
-       this.mesList.push({
-            title:name,
-            src: 'head' + a +'.jpg',
-            isIgnore: true,
-            time: Mock.mock('@integer(1, 59)')+"分钟前",
-            detail: name+':'+ Random.csentence(),
-            tag:Random.cname(),
-            tagType: Mock.mock('@integer(0, 1)')==0?'success':"info",
-            newMesNum:Mock.mock('@integer(0, 10)'),
-       })
-    }
-     
+    this.fullMesList()
+    this.init()
   },
   methods:{
+    init(){
+      this.$nextTick(()=>{
+        window.myApi.init('window-init')
+      })
+      
+    },
+    fullMesList(){
+      //补全12条记录
+      let a = 0
+      for(let i=0;this.mesList.length<=12;i++){
+        if(a>=5){
+          a = 0
+        }
+        a++
+        const name = Random.cname()
+        this.mesList.push({
+          title:name,
+          src: 'head' + a +'.jpg',
+          isIgnore: true,
+          time: Mock.mock('@integer(1, 59)')+"分钟前",
+          detail: name+':'+ Random.csentence(),
+          tag:Random.cname(),
+          tagType: Mock.mock('@integer(0, 1)')==0?'success':"info",
+          newMesNum:Mock.mock('@integer(0, 10)'),
+        })
+      }
+    },
     changeMesList(index){
       console.log("update mesList",index)
       this.mesList[index].newMesNum = 0

@@ -1,0 +1,89 @@
+{
+    "attention": "注意，调整数据的时候一定要确保没有多余的标点，最后一位要记得不要加逗号",
+    "conversationListNote": "这是conversationList的注释，这个数据用于左边 会话的列表",
+    "conversationList": [
+        {
+            "title": "梁非凡123",
+            "src": "head1.jpg",
+            "isIgnore": true,
+            "time": "昨天",
+            "detail": "梁非凡：警署都有规定，下属唔可以同上司啵嘴！",
+            "tag": "老板",
+            "tagType": "info",
+            "newMesNum": 3
+        },
+        {
+            "title": "刘醒456",
+            "src": "head2.jpg",
+            "isIgnore": true,
+            "time": "5分钟前",
+            "detail": "刘醒：对唔住非凡哥，但系警署有规定。",
+            "tag": "啊sir",
+            "tagType": "success",
+            "newMesNum": 0
+        }
+    ],
+    "chatDetail": [
+        "今天的OA不显示验证码呢123",
+        "稍等，我们检查下321",
+        "还是没有显示验证码",
+        "各位同事，OA所在天翼云PaaS有点问题，目前正在找平台方处理，恢复之后第一时间在群里通知",
+        "各位同事，OA已恢复正常，请大家正常使用~",
+        "OA点击登录 一致跳转至登录界面",
+        "具体有什么提示吗，请私发我下",
+        "打印导出PDF报错了，",
+        "@李兰  ",
+        "好的，我们检查下",
+        "本期推文与大家分享的是👉以数字孪生技术推动网络资源管理升级👈。数字孪生作为一种新兴的技术手段，通过对各种数字要素、数据场景进行虚实交互和模拟仿真，构建出与现实对应的“虚拟空间”，辅助提升决策效率，提升管理效率！一起来看一下数字孪生技术如何赋能资源管理!",
+        "@所有人  ",
+        "OA网页链接超时，这是什么问题啊，VPN是连着的",
+        "访问OA不要挂VPN，会冲突",
+        "登录页面后跳转不过去，也没有任何的提示",
+        "具体有什么提示吗，请私发我下",
+        "稍等，我们检查下",
+        "还是没有显示验证码",
+        "各位同事，OA所在天翼云PaaS有点问题，目前正在找平台方处理，恢复之后第一时间在群里通知",
+        "各位同事，OA已恢复正常，请大家正常使用~123"
+    ],
+    "chatDetailNote": "会话的详细内容,如果数量不够会进行循环获取，随机生成20条人名模拟大群交流",
+    "memberList": [
+        {
+            "name": "巨某人",
+            "sex": 0
+        }
+    ],
+    "memberListNote": "右边当前会话的成员，name是名字sex男0女1如果不填或者填的数量不足26会自动补全到26个",
+    "urlList": [
+        {
+            "name": "bilibili",
+            "url": "https://www.bilibili.com/",
+            "mark": "b站"
+        },
+        {
+            "name": "ygo",
+            "url": "https://neos.moecube.com/",
+            "mark": "游戏王"
+        },
+        {
+            "name": "saolei",
+            "url": "https://www.minesweeper.cn/",
+            "mark": "扫雷"
+        },
+        {
+            "name": "pvz",
+            "url": "https://game.moe.ms/",
+            "mark": "植僵"
+        },
+        {
+            "name": "baidu",
+            "url": "https://www.baidu.com/",
+            "mark": "百度"
+        },
+        {
+            "name": "qq",
+            "url": "https://im.qq.com/",
+            "mark": "QQ111111111111111111111111"
+        }
+    ],
+    "urlListNote": "用来控制快捷网址"
+}

@@ -6,4 +6,7 @@ contextBridge.exposeInMainWorld('myApi',{
         change:(args)=>{
             ipcRenderer.send('window-change',args)
         },
+        init:(args)=>{
+            ipcRenderer.send('window-init',args)
+        }
     })
